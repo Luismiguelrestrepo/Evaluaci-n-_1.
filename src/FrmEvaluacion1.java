@@ -10,7 +10,7 @@ public class FrmEvaluacion1 extends JFrame {
     private JComboBox cmbDenominacion;
     private JTextField txtActualizarExistencia, txtValorAdevolver;
     private JTable tblTablaDistribucion;
-    private DefaultTableModel modeloTabla;
+    private DefaultTableModel formadeTabla;
 
     public FrmEvaluacion1() {
         setSize(600, 400);
@@ -50,11 +50,11 @@ public class FrmEvaluacion1 extends JFrame {
         getContentPane().add(btnDevolver);
 
         String[] columnas = {"Cantidad", "Presentacion", "Denominacion"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
-        tblTablaDistribucion = new JTable(modeloTabla);
-        JScrollPane spTablaDistribucion = new JScrollPane(tblTablaDistribucion);
-        spTablaDistribucion.setBounds(20, 120, 550, 200);
-        getContentPane().add(spTablaDistribucion);
+        formadeTabla = new DefaultTableModel(columnas, 0);
+        tblTablaDistribucion = new JTable(formadeTabla);
+        JScrollPane spTabla = new JScrollPane(tblTablaDistribucion);
+        spTabla.setBounds(20, 120, 550, 200);
+        getContentPane().add(spTabla);
 
         btnActualizarExistencia.addActionListener(new ActionListener() {
             @Override
@@ -95,9 +95,8 @@ public class FrmEvaluacion1 extends JFrame {
         try {
             int monto = Integer.parseInt(txtValorAdevolver.getText());
             int[] cantidadUsada = new int[denominaciones.length];
-
-            //concepto de ia: el modeloTabla.setRowCount(0);
-            modeloTabla.setRowCount(0);
+            
+            formadeTabla.setRowCount(0);
 
             for (int i = 0; i < denominaciones.length; i++) {
                 if (monto >= denominaciones[i] && existencias[i] > 0) {
@@ -110,7 +109,7 @@ public class FrmEvaluacion1 extends JFrame {
 
             for (int i = 0; i < denominaciones.length; i++) {
                 if (cantidadUsada[i] > 0) {
-                    modeloTabla.addRow(new Object[]{cantidadUsada[i], (denominaciones[i] >= 1000) ? "Billete" : "Moneda", denominaciones[i]});
+                    formadeTabla.addRow(new Object[]{cantidadUsada[i], (denominaciones[i] >= 1000) ? "Billete" : "Moneda", denominaciones[i]});
 
                 }
             }
@@ -122,10 +121,5 @@ public class FrmEvaluacion1 extends JFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Ingrese un monto válido.");
         }
-    }
-
-    public static void main(String[] args) {
-        FrmEvaluacion1 frame = new FrmEvaluacion1();
-        frame.setVisible(true);
     }
 }
